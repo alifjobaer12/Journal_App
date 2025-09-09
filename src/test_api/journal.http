@@ -1,0 +1,40 @@
+### Health Check
+GET {{host}}/health-check
+
+###
+
+### Get all journals
+GET {{host}}/journal
+
+####
+
+### Create a new journal
+POST {{host}}/journal
+Content-Type: application/json
+
+{
+  "journalId": "8080",
+  "journalName": "My First Entry",
+  "journalDescription": "This is a test journal entry"
+}
+
+###
+
+### Get journal by ID
+GET {{host}}/journal/id/8080
+
+###
+
+### Update journal by ID
+PUT {{host}}/journal/id/8080
+Content-Type: application/json
+
+{
+  "journalName": "Updated Title",
+  "journalDescription": "Updated content"
+}
+
+###
+
+### Delete journal by ID
+DELETE {{host}}/journal/id/8080
