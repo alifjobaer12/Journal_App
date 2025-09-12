@@ -7,6 +7,7 @@ import com.journal.journalApp.repository.userRapository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,12 +24,18 @@ public class journalEntryService {
     @Autowired
     private userRapository userRapository;
 
+    @Transactional
     public void  saveEntry(journalEntry journalEntry, String userName){
-        user user = userService.findByUserName(userName);
-        journalEntry.setDate(LocalDateTime.now());
-        journalEntry save = JournalRapository.save(journalEntry);
-        user.getJournalEntries().add(save);
-        userService.saveEntry(user);
+        try {
+            user user = userService.findByUserName(userName);
+            journalEntry.setDate(LocalDateTime.now());
+            journalEntry save = JournalRapository.save(journalEntry);
+            user.getJournalEntries().add(save);
+            userService.saveEntry(user);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     public List<journalEntry> getAll(){
@@ -39,11 +46,16 @@ public class journalEntryService {
         return JournalRapository.findById(id);
     }
 
+    @Transactional
     public boolean deleteById(ObjectId id, String userName) {
-        user user = userService.findByUserName(userName);
-        user.getJournalEntries().removeIf(journalEntry -> journalEntry.getJournalId().equals(id));
-        JournalRapository.deleteById(id);
-        return true;
+        try {
+            user user = userService.findByUserName(userName);
+            user.getJournalEntries().removeIf(journalEntry -> journalEntry.getJournalId().equals(id));
+            JournalRapository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
     }
-
 }
