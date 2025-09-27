@@ -37,6 +37,14 @@ public class journalEntryService {
             throw new RuntimeException(e.getMessage());
         }
     }
+    public void  saveEntry(journalEntry journalEntry){
+        try {
+            JournalRapository.save(journalEntry);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
     public List<journalEntry> getAll(){
         return JournalRapository.findAll();
