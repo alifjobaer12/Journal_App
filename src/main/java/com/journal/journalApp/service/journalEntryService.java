@@ -31,7 +31,7 @@ public class journalEntryService {
             journalEntry.setDate(LocalDateTime.now());
             journalEntry save = JournalRapository.save(journalEntry);
             user.getJournalEntries().add(save);
-            userService.saveEntry(user);
+            userService.saveUser(user);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e.getMessage());
@@ -58,9 +58,15 @@ public class journalEntryService {
     public boolean deleteById(ObjectId id, String userName) {
         try {
             user user = userService.findByUserName(userName);
-            user.getJournalEntries().removeIf(journalEntry -> journalEntry.getJournalId().equals(id));
-            JournalRapository.deleteById(id);
-            return true;
+            boolean isRemoved = user.getJournalEntries().removeIf(journalEntry -> journalEntry.getJournalId().equals(id));
+            if(isRemoved) {
+                JournalRapository.deleteById(id);
+                userService.saveUser(user);
+                return true;
+            }
+            else {
+                throw new RuntimeException("Journal Entry with id " + id + " not found");
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e.getMessage());

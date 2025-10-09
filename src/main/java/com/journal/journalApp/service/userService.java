@@ -4,8 +4,11 @@ import com.journal.journalApp.entity.user;
 import com.journal.journalApp.repository.userRapository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +19,25 @@ public class userService {
     @Autowired
     private userRapository userRapository;
 
-    public void  saveEntry(user userEntry){
+    private static final PasswordEncoder passwordEncoder =  new BCryptPasswordEncoder();
+
+    public void saveNewUser(user userEntry){
+        userEntry.setPassword(passwordEncoder.encode(userEntry.getPassword()));
+        userEntry.setRoles(Arrays.asList("User"));
         userRapository.save(userEntry);
     }
 
-    public List<user> getAll(){
+    public void saveUser(user userEntry){
+        userRapository.save(userEntry);
+    }
+
+    public void saveAdminUser(user userEntry){
+        userEntry.setPassword(passwordEncoder.encode(userEntry.getPassword()));
+        userEntry.setRoles(Arrays.asList("User, ADMIN"));
+        userRapository.save(userEntry);
+    }
+
+    public List<user> getAllUsers(){
         return userRapository.findAll();
     }
 
@@ -32,9 +49,15 @@ public class userService {
         userRapository.deleteById(id);
         return true;
     }
+    public boolean deleteByUserName(String userName) {
+        userRapository.deleteByUserName(userName);
+        return true;
+    }
 
     public user findByUserName(String userName){
         return userRapository.findByUserName(userName);
     }
+
+
 
 }
