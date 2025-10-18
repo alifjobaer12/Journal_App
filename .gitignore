@@ -33,6 +33,6 @@ build/
 .vscode/
 
 
-/encription/
+**/encription/**
 
 .fastRequest
