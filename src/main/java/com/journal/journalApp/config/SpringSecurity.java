@@ -19,6 +19,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     private userDetailesServiceImpl userDetailesService;
 
+    @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/journal/**", "/user/**").authenticated()

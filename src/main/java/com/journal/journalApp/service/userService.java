@@ -23,7 +23,7 @@ public class userService {
 
     public void saveNewUser(user userEntry){
         userEntry.setPassword(passwordEncoder.encode(userEntry.getPassword()));
-        userEntry.setRoles(Arrays.asList("User"));
+        userEntry.setRoles(Arrays.asList("USER"));
         userRapository.save(userEntry);
     }
 
@@ -33,7 +33,7 @@ public class userService {
 
     public void saveAdminUser(user userEntry){
         userEntry.setPassword(passwordEncoder.encode(userEntry.getPassword()));
-        userEntry.setRoles(Arrays.asList("User, ADMIN"));
+        userEntry.setRoles(Arrays.asList("USER, ADMIN"));
         userRapository.save(userEntry);
     }
 
