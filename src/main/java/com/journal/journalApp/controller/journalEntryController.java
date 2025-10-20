@@ -4,9 +4,8 @@ import com.journal.journalApp.entity.journalEntry;
 import com.journal.journalApp.entity.user;
 import com.journal.journalApp.service.journalEntryService;
 import com.journal.journalApp.service.userService;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequestMapping("/journal")
 public class journalEntryController {
@@ -26,8 +26,6 @@ public class journalEntryController {
     private journalEntryService journalService;
     @Autowired
     private userService userService;
-
-    private static final Logger log = LoggerFactory.getLogger(journalEntryController.class);
 
 
     @GetMapping                                                 //  All Journal of a user
