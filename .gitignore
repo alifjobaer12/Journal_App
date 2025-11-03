@@ -37,4 +37,4 @@ build/
 
 .fastRequest
 /log/**
-*.ovpn
+#*.ovpn
